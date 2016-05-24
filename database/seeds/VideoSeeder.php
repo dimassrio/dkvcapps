@@ -19,11 +19,11 @@ class VideoSeeder extends Seeder
         		'name' => $faker->company()
         	]);
         }
-
+        $videos = ['https://www.youtube.com/watch?v=Ej_DQ-Pk5nc', 'https://www.youtube.com/watch?v=mwaTVPAUGCg', 'https://www.youtube.com/watch?v=rITj6y15U-w'];
         foreach (range(1, 100) as $key => $value) {
         	$videos = Video::create([
         		'title' => $faker->sentence(),
-        		'url' => $faker->url(),
+        		'url' => $videos[$faker->numberBetween(0, 2)],
         		'comp_id' => $faker->numberBetween(1, 10)
         	]);
         }
