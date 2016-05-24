@@ -25,6 +25,4 @@ Routed::version('v1', function($api){
 	$api->get('/comments/{id}', 'App\Modules\Api\Http\Controllers\CommentsController@getEntity');
 	$api->delete('/comments/{id}', 'App\Modules\Api\Http\Controllers\CommentsController@deleteEntity');
 	$api->post('/comments/{id}/flag', 'App\Modules\Api\Http\Controllers\CommentsController@toggleFlag');
-
-
 });

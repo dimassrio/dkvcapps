@@ -98,7 +98,10 @@ class VideoController extends ApiController
 	 * })
 	 */
 	public function toggleLike($id, Request $request){
-		$results = $this->comment->find($id);
+		$results = $this->video->find($id);
+		if(!$request->has('user_id')){
+			return $this->response->errorBadRequest();
+		}
 		$results = $results->toggleLike($request->input('user_id'));
 		if($results == 'enabled'){
 			return $this->response->created();
