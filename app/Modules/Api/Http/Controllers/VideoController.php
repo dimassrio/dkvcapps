@@ -40,7 +40,9 @@ class VideoController extends ApiController
 	 */
 	public function getEntity($id, Request $request){
 		$results = $this->video->find($id);
-
+		if(is_null($results)){
+			return $this->response->errorNotFound();
+		}
 		return $this->response->item($results, $this->transformer);
 	}
 
@@ -65,13 +67,13 @@ class VideoController extends ApiController
 	public function putEntity($id, Request $request){
 		$results = $this->video->find($id);
 		if(!is_null($results)){
-		$results->title = $request->input('title', $results->title);
-		$results->url = $request->input('url', $results->url);
+			$results->title = $request->input('title', $results->title);
+			$results->url = $request->input('url', $results->url);
 
-		return $this->response->item($results);
+			return $this->response->item($results);
 		}
 
-		return $this->response->notFound();
+		return $this->response->errorNotFound();
 	}
 
 	/**
@@ -85,7 +87,7 @@ class VideoController extends ApiController
 			$results->delete();
 			return $this->response->noContent();
 		}
-		return $this->response->notFound();
+		return $this->response->errorNotFound();
 	}
 
 	/**
@@ -107,5 +109,27 @@ class VideoController extends ApiController
 			return $this->response->created();
 		}
 		return $this->response->noContent();
+	}
+
+	/*
+	 *
+	 * 
+	 */
+	public function getAllLike($id, Request $request){
+		$results = $this->video->find($id);
+		if(is_null($results)){
+			return $this->response->errorNotFound();
+		}
+		$results = $results->likeList();
+		return $this->response->array($results);
+	}
+
+	public function getLikeCount($id, Request $request){
+		$results = $this->video->find($id);
+		if(is_null($results)){
+			return $this->response->errorNotFound();
+		}
+		$results = $results->likeCount();
+		return $this->response->array($results);
 	}
 }

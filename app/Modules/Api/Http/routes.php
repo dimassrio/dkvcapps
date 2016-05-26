@@ -18,7 +18,8 @@ Routed::version('v1', function($api){
 	$api->put('/video/{id}', '\App\Modules\Api\Http\Controllers\VideoController@putEntity');
 	$api->delete('/video/{id}', '\App\Modules\Api\Http\Controllers\VideoController@deleteEntity');
 	$api->post('/video/{id}/like', '\App\Modules\Api\Http\Controllers\VideoController@toggleLike');
-
+	$api->get('/video/{id}/like', '\App\Modules\Api\Http\Controllers\VideoController@getAllLike');
+	$api->get('/video/{id}/like-count','\App\Modules\Api\Http\Controllers\VideoController@getLikeCount');
 	$api->get('/video/{id}/comments', 'App\Modules\Api\Http\Controllers\CommentsController@getAll');
 	$api->post('/video/{id}/comments', 'App\Modules\Api\Http\Controllers\CommentsController@postEntity');
 	$api->get('/video/{id}/users', 'App\Modules\Api\Http\Controllers\CommentsController@getUsers');
