@@ -15,7 +15,7 @@ class CreateCommentFlag extends Migration
         Schema::create('comments_flag', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('comment_id');
-            $table->integer('user_id');
+            $table->string('user_id');
             $table->timestamps();
         });
     }

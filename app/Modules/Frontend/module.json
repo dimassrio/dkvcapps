@@ -1,0 +1,9 @@
+{
+	"name": "Frontend",
+	"slug": "frontend",
+	"namespace": "Frontend",
+	"version": "1.0",
+	"author": " ",
+	"license": "MIT",
+	"description": "This is the description for the Frontend module."
+}

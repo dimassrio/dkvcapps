@@ -24,7 +24,7 @@ class VideoSeeder extends Seeder
         	$videos = Video::create([
         		'title' => $faker->sentence(),
         		'url' => $video[$faker->numberBetween(0,2)],
-        		'comp_id' => $faker->numberBetween(1, 10)
+        		'cobrand_id' => $faker->numberBetween(1, 10)
         	]);
         }
     }

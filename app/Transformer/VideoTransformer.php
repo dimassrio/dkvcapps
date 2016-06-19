@@ -19,7 +19,7 @@ class VideoTransformer extends Fractal\TransformerAbstract
 			'url' 	 => $video->url,
 			'rel'	 => 'self',
 			'entity' => '/video/'.$video->id,
-			'comp_id'=> $video->comp_id,
+			'cobrand_id'=> $video->cobrand_id,
 			'like_list' => $video->likeList(),
 			'like_count' => $video->likeCount()
 		];

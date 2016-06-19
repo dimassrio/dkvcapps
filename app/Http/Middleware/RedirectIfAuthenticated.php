@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Cartalyst\Sentinel\Sentinel;
 
 class RedirectIfAuthenticated
 {
@@ -20,7 +21,7 @@ class RedirectIfAuthenticated
      * @param  Guard  $auth
      * @return void
      */
-    public function __construct(Guard $auth)
+    public function __construct(Sentinel $auth)
     {
         $this->auth = $auth;
     }
@@ -35,7 +36,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next)
     {
         if ($this->auth->check()) {
-            return redirect('/home');
+            return redirect('/dashboard');
         }
 
         return $next($request);

@@ -16,7 +16,7 @@ class CreateVideoTables extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('url');
-            $table->string('comp_id')->default(1);
+            $table->string('cobrand_id')->default(1);
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@ class CreateLikeVideo extends Migration
     public function up()
     {
         Schema::create('videos_likes', function (Blueprint $table) {
-            $table->integer('user_id');
+            $table->string('user_id');
             $table->integer('video_id');
             $table->timestamps();
         });

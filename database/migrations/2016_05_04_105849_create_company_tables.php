@@ -12,8 +12,9 @@ class CreateCompanyTables extends Migration
      */
     public function up()
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('cobrand', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('ref_id')->nullable();
             $table->string('name');
             $table->timestamps();
         });
@@ -26,6 +27,6 @@ class CreateCompanyTables extends Migration
      */
     public function down()
     {
-        Schema::drop('companies');
+        Schema::drop('cobrand');
     }
 }

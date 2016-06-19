@@ -29,8 +29,20 @@ class VideoController extends ApiController
 	public function getAll(Request $request){
 		$limit = $request->input('limit', 100);
 		$offset = $request->input('offset', 0);
-
-		$results = $this->video->skip($offset)->take($limit)->get();
+		$search = $request->input('search');
+		if(!is_null($search)){
+			if($limit>0){
+				$results = $this->video->where('cobrand_id', $search)->skip($offset)->take($limit)->get();
+			}else{
+				$results = $this->video->where('cobrand_id', $search)->skip($offset)->get();
+			}
+		}else{
+			if($limit>0){
+				$results = $this->video->skip($offset)->take($limit)->get();
+			}else{
+				$results = $this->video->skip($offset)->get();
+			}
+		}
 		return $this->response->collection($results, $this->transformer);
 	}
 	/**
@@ -53,7 +65,7 @@ class VideoController extends ApiController
 	 * @Response(200, body={"id":1, "title":"Lorem Ipsum", "url": "http://youtube.com/watch?v=1234567", "created_at":"2000-01-01 00:00:00", "updated_at":"2000-01-01 00:00:00"})
 	 */
 	public function postEntity(Request $request){
-		$results = $this->video->create(['title' => $request->input('title'), 'url' => $request->input('url'), 'comp_id' => $request->input('company_id')]);
+		$results = $this->video->create(['title' => $request->input('title'), 'url' => $request->input('url'), 'cobrand_id' => $request->input('cobrand_id')]);
 		$results->company;
 		return $this->response->item($results, $this->transformer);
 	}

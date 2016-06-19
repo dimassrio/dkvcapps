@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Video extends Model
 {
-	protected $fillable = array('title', 'url');
+	protected $fillable = array('title', 'url', 'cobrand_id');
 	
 	public function comments(){
 		return $this->hasMany('App\Model\Comment', 'video_id');
 	} 
 
 	public function company(){
-		return $this->belongsTo('App\Model\Company', 'comp_id');
+		return $this->belongsTo('App\Model\Company', 'cobrand_id');
 	}
 
 	public function toggleLike($user_id){

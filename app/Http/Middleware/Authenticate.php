@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
-
+use Cartalyst\Sentinel\Sentinel;
 class Authenticate
 {
     /**
@@ -20,7 +20,7 @@ class Authenticate
      * @param  Guard  $auth
      * @return void
      */
-    public function __construct(Guard $auth)
+    public function __construct(Sentinel $auth)
     {
         $this->auth = $auth;
     }
