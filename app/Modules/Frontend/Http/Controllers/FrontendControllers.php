@@ -6,8 +6,8 @@ use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Pagination\LengthAwarePaginator;
-
-
+use App\Model\Video;
+use App\Model\Comment;
 class FrontendControllers extends ApiController
 {
 	use Helpers;
@@ -223,5 +223,34 @@ class FrontendControllers extends ApiController
 		}
 
 		return redirect()->to('/dashboard/vendors');
+	}
+
+	public function dashboardCommentsIndex($id, Request $request){
+		$video = Video::find($id);
+		$users = \Sentinel::getUser();
+		$title = 'Comments Management';
+		$description = 'Manage the comment from the users here.';
+		$active = 'video';
+
+		if(!\Sentinel::inRole('admin')){
+			if($results->cobrand_id != $users->cobrand_id){
+				return redirect()->to('/dashboard/videos');
+			}
+		}
+		parse_str(parse_url($video->url)['query'], $embed);
+
+		$results = $video->comments;
+		$collect = $results->forPage($request->input('page', 1), 20);
+		$comments_container = new LengthAwarePaginator($collect, count($results),20);
+		$comments_container->setPath('/dashboard/comments/'.$id);
+
+		return view('frontend::dashboard.comments.index', compact('title', 'description', 'active', 'users', 'comments_container', 'video', 'embed'));
+	}
+
+	public function dashboardCommentsDelete($id){
+		$comments = Comment::find($id);
+		$video_id = $comments->video_id;
+		$comments->delete();
+		return redirect()->to('/dashboard/comments/'.$video_id);
 	}
 }

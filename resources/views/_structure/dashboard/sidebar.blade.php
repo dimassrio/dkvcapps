@@ -18,7 +18,7 @@
 			<li class="header">HEADER</li>
 			<!-- Optionally, you can add icons to the links -->
 			@foreach($menus as $m)
-				<li @if($active == $m->slug)class="active"@endif><a href="{{url('/dashboard')}}/{{$m->slug}}"><i class="fa fa-setting"></i> <span>{{$m->name}}</span></a></li>
+				<li @if($active == $m->slug)class="active"@endif><a href="{{url('/dashboard')}}/{{$m->slug}}"><i class="fa fa-{{$m->icon}}"></i> <span>{{$m->name}}</span></a></li>
 			@endforeach
 			<!-- <li><a href="#"><span>Another Link</span></a></li>
 			<li class="treeview">

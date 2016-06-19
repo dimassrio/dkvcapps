@@ -1,5 +1,5 @@
 <header class="main-header">
-	<a href="../../index2.html" class="logo">
+	<a href="{{url('/dashboard/video')}}" class="logo">
 		<!-- LOGO -->
 		DOKU
 	</a>

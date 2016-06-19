@@ -26,7 +26,6 @@
 				@endif
 			</td>
 			<td>
-				<a href="" class="btn btn-warning btn-tiny"><i class="fa fa-pencil"></i></a>
 				<button class="btn btn-danger btn-tiny btn--delete" id="btn--delete__{{$v->id}}" data-id="{{$v->id}}"><i class="fa fa-times"></i></button>
 			</td>
 		</tr>	
