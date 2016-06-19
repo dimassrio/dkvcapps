@@ -143,6 +143,7 @@ return [
 		App\Providers\AppServiceProvider::class,
 		App\Providers\EventServiceProvider::class,
 		App\Providers\RouteServiceProvider::class,
+		App\Providers\ViewComposerProvider::class,
 
 		Dingo\Api\Provider\LaravelServiceProvider::class,
 		Caffeinated\Modules\ModulesServiceProvider::class,

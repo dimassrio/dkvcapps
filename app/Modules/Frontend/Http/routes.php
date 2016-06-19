@@ -46,6 +46,14 @@ Route::group(['middleware'=>['auth']], function(){
 	Route::post('/dashboard/users', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardUsersPost');
 	Route::get('/dashboard/users/{id}/delete', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardUsersDelete');
 
+	Route::get('/dashboard/vendors', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVendorIndex');
+	Route::post('/dashboard/vendors', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVendorPost');
+
+	Route::get('/dashboard/create/vendors', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVendorCreate');
+
+	Route::get('/dashboard/vendors/{id}/delete', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVendorDelete');
+
+
 });
 Route::group(['prefix' => 'frontend', 'middleware' => ['web']], function () {
 	//

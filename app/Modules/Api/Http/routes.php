@@ -28,6 +28,10 @@ Routed::version('v1', function($api){
 	$api->post('/comments/{id}/flag', 'App\Modules\Api\Http\Controllers\CommentsController@toggleFlag');
 
 	$api->get('/company', 'App\Modules\Api\Http\Controllers\CompanyController@getAll');
+	$api->post('/company', 'App\Modules\Api\Http\Controllers\CompanyController@postEntity');
+
 	$api->get('/company/{id}', 'App\Modules\Api\Http\Controllers\CompanyController@getEntity');
+	$api->delete('/company/{id}', 'App\Modules\Api\Http\Controllers\CompanyController@deleteEntity');
+
 
 });

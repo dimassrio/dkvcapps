@@ -17,10 +17,9 @@
 		<ul class="sidebar-menu">
 			<li class="header">HEADER</li>
 			<!-- Optionally, you can add icons to the links -->
-			<li @if($active == 'video')class="active"@endif><a href="{{url('/dashboard/video')}}"><i class="fa fa-video-camera"></i> <span>Video</span></a></li>
-			<li @if($active == 'comments')class="active"@endif><a href="{{url('/dashboard/comments')}}"><i class="fa fa-comments"></i> <span>Comments</span></a></li>
-			<li @if($active == 'users')class="active"@endif><a href="{{url('/dashboard/users')}}"><i class="fa fa-users"></i> <span>Users</span></a></li>
-		
+			@foreach($menus as $m)
+				<li @if($active == $m->slug)class="active"@endif><a href="{{url('/dashboard')}}/{{$m->slug}}"><i class="fa fa-setting"></i> <span>{{$m->name}}</span></a></li>
+			@endforeach
 			<!-- <li><a href="#"><span>Another Link</span></a></li>
 			<li class="treeview">
 				<a href="#"><span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>

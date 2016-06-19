@@ -25,4 +25,15 @@ class CompanyController extends ApiController
     	$results = $this->company->find($id);
     	return $this->response->item($results, $this->transformer);
     }
+
+    public function postEntity(Request $request){
+    	$results = $this->company->create(['ref_id'=>$request->input('ref_id'), 'name'=>$request->input('name')]);
+    	return $this->response->item($results, $this->transformer);
+    }
+
+    public function deleteEntity($id, Request $request){
+        $results = $this->company->find($id);
+        $results->delete();
+        return $this->response->noContent();
+    }
 }

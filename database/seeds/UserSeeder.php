@@ -29,6 +29,19 @@ class UserSeeder extends Seeder
         	'name' => 'Vendor',
         	'slug' => 'vendor'
         ]);
+        $menus1 = \DB::table('menus')->insertGetId(['name'=>'Video', 'slug'=>'video']);
+        $menus2 = \DB::table('menus')->insertGetId(['name'=>'Comment', 'slug'=>'comments']);
+        $menus3 = \DB::table('menus')->insertGetId(['name'=>'Users', 'slug'=>'users']);
+        $menus4 = \DB::table('menus')->insertGetId(['name'=>'Vendor', 'slug'=>'vendors']);
+
+        $rm = \DB::table('role_menus')->insert(['menu_id'=>$menus1, 'role_id'=>$role1->id]);
+        $rm = \DB::table('role_menus')->insert(['menu_id'=>$menus2, 'role_id'=>$role1->id]);
+        $rm = \DB::table('role_menus')->insert(['menu_id'=>$menus3, 'role_id'=>$role1->id]);
+        $rm = \DB::table('role_menus')->insert(['menu_id'=>$menus4, 'role_id'=>$role1->id]);
+
+        $rm = \DB::table('role_menus')->insert(['menu_id'=>$menus1, 'role_id'=>$role2->id]);
+        $rm = \DB::table('role_menus')->insert(['menu_id'=>$menus2, 'role_id'=>$role2->id]);
+        $rm = \DB::table('role_menus')->insert(['menu_id'=>$menus3, 'role_id'=>$role2->id]);
 
         $users = \Sentinel::registerAndActivate($credentials);
         $users->first_name = "Administrator";

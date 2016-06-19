@@ -168,4 +168,60 @@ class FrontendControllers extends ApiController
 
 		return redirect()->to('/dashboard/users');
 	}
+
+	public function dashboardVendorIndex(Request $request){
+		$users = \Sentinel::getUser();
+		$title = 'Vendor Management';
+		$description = 'Manage your Vendor here';
+		$active = 'vendors';
+		// querying
+		
+		// if admin
+		if(\Sentinel::inRole('admin')){
+			$search = $request->input('search');
+			$query = $this->api->get('/api/company');
+		}
+		$results = $query;
+		$collect = $results->forPage($request->input('page', 1), 20);
+		$vendor_container = new LengthAwarePaginator($collect, count($results),20);
+
+		$vendor_container->setPath('/dashboard/vendors');
+		return view('frontend::dashboard.vendors.index', compact('title', 'description', 'active', 'users', 'vendor_container'));
+	}
+
+	public function dashboardVendorDelete($id){
+		if(\Sentinel::inRole('admin')){
+			// delete user
+			$results = \Sentinel::getUserRepository()->where('cobrand_id', $id)->get();
+			foreach ($results as $key => $value) {
+				$value->delete();
+			}
+			// delete video
+			$results = $this->api->get('api/video?limit=0&search='.$id);
+			foreach ($results as $key => $value) {
+				$results = $this->api->delete('api/video/'.$value->id);
+			}
+			// delete vendor
+			$results = $this->api->delete('api/company/'.$id);
+		}
+
+		return redirect()->to('/dashboard/vendors');
+	}
+
+	public function dashboardVendorCreate(){
+		$users = \Sentinel::getUser();
+		$title = 'Create Vendors';
+		$description = 'Create the Vendors listing here';
+		$active = 'vendors';
+		return view('frontend::dashboard.vendors.create', compact('title', 'description', 'active', 'users'));
+	}
+
+	public function dashboardVendorPost(Request $request){
+
+		foreach ($request->input('name') as $key => $value) {
+			$this->api->post('/api/company', ['name' => $value, 'ref_id_'=> $request->input('ref_id_')[$key]]);
+		}
+
+		return redirect()->to('/dashboard/vendors');
+	}
 }
