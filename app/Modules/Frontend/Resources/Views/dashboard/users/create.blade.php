@@ -1,6 +1,12 @@
 @extends('_layout.dashboard')
 
 @section('body')
+	@foreach($errors->all() as $e)
+		<div class="alert alert-danger alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{$e}}
+		</div>
+	@endforeach
 	<div class="container">
 		<form action="{{url('/dashboard/users')}}" method="POST">
 			<div class="row">

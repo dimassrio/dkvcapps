@@ -94,6 +94,17 @@ class FrontendControllers extends ApiController
 
 	public function dashboardVideoPost(Request $request){
 		foreach ($request->input('title') as $key => $value) {
+			$data = ["title"=>$value, "url"=> $request->input('url')[$key], "cobrand_id"=>$request->input('cobrand_id')[$key]];
+			$validator = \Validator::make($data, [
+				'title' => 'required',
+				'url' => 'required|url',
+				'cobrand_id' => 'required'
+			]);
+
+			if($validator->fails()){
+				return redirect()->to('/dashboard/create/video')->withErrors($validator);
+			}
+
 			$this->api->post('/api/video', ['title' => $value, 'url'=> $request->input('url')[$key], 'cobrand_id'=>$request->input('cobrand_id')[$key]]);
 		}
 
@@ -144,6 +155,17 @@ class FrontendControllers extends ApiController
 
 	public function dashboardUsersPost(Request $request){
 		foreach ($request->input('email') as $key => $value) {
+			$data = ["email"=>$value, "password"=> $request->input('password')[$key], "first_name"=>$request->input('first_name')[$key]];
+			$validator = \Validator::make($data, [
+				'email' => 'required',
+				'password' => 'required',
+				'first_name' => 'required'
+			]);
+
+			if($validator->fails()){
+				return redirect()->to('/dashboard/create/users')->withErrors($validator);
+			}
+
 			$credentials = [
 				'email' => $value,
 				'password' => $request->input('password')[$key]
