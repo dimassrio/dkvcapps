@@ -4,7 +4,15 @@
 	<div class="embed-responsive embed-responsive-16by9">
 		<iframe src="https://www.youtube.com/embed/{{$embed['v']}}" frameborder="0" allowfullscreen></iframe>
 	</div>
-	<table class="table table-striped">
+	<div class="box">
+		<div class="box-header">
+			<div class="box-title">
+				Data Comment
+			</div>
+			<div class="box-tools"></div>
+		</div>
+		<div class="box-body table-responsive">
+			<table class="table table-striped">
 			<thead>
 				<tr>
 					<th>No</th>
@@ -26,8 +34,17 @@
 	@endforeach
 	</tbody>
 	</table>
-
+		</div>
+		<div class="no-padding"></div>
+		<div class="box-footer">
+			<div class="box-tools">
 	{!!$comments_container->render()!!}
+				
+			</div>
+		</div>
+	</div>
+	
+
 
 	<div id="modal--delete" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 	  <div class="modal-dialog modal-sm">

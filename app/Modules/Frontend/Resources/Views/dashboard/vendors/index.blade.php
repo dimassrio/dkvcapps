@@ -1,31 +1,46 @@
 @extends('_layout.dashboard')
 
 @section('body')
-	<a href="{{url('/dashboard/create/vendors')}}" class="btn btn-info btn-tiny"><i class="fa fa-plus"></i> Add vendors</a>
-	<table class="table table-striped">
-			<thead>
+	<div class="box">
+		<div class="box-header">
+			<div class="box-title">
+				Data Vendor
+			</div>
+			<div class="box-tools">
+				<a href="{{url('/dashboard/create/vendors')}}" class="btn btn-info btn-tiny"><i class="fa fa-plus"></i> Add vendors</a>
+			</div>
+		</div>
+		<div class="box-body table-responsive no-padding">
+			<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>No</th>
+							<th>Nama</th>
+							<th>Ref Id</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+			@foreach($vendor_container as $key => $v)
 				<tr>
-					<th>No</th>
-					<th>Nama</th>
-					<th>Ref Id</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-	@foreach($vendor_container as $key => $v)
-		<tr>
-			<td>{{$key + 1}}</td>
-			<td>{{$v->name}}</td>
-			<td>{{$v->ref_id}}</td>
-			<td>
-				<button class="btn btn-danger btn-tiny btn--delete" id="btn--delete__{{$v->id}}" data-id="{{$v->id}}"><i class="fa fa-times"></i></button>
-			</td>
-		</tr>	
-	@endforeach
-	</tbody>
+					<td>{{$key + 1}}</td>
+					<td>{{$v->name}}</td>
+					<td>{{$v->ref_id}}</td>
+					<td>
+						<button class="btn btn-danger btn-tiny btn--delete" id="btn--delete__{{$v->id}}" data-id="{{$v->id}}"><i class="fa fa-times"></i></button>
+					</td>
+				</tr>	
+			@endforeach
+			</tbody>
 		</table>
-	{!!$vendor_container->render()!!}
-
+		</div>
+		<div class="box-footer">
+			<div class="box-tools">
+				{!!$vendor_container->render()!!}
+			</div>
+		</div>
+	</div>
+	
 	<div id="modal--delete" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 	  <div class="modal-dialog modal-sm">
 	    <div class="modal-content">
