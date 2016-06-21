@@ -65,7 +65,7 @@ class CommentsController extends ApiController
 	public function postEntity($id, Request $request){
 		$results = $this->comment->create([
 			'comments' => $request->input('comments'),
-			'user_id' => $request->input('user_id'),
+			'email' => $request->input('email'),
 			'video_id' => $id,
 			'level' => $request->input('level', 0),
 			'parent' => $request->input('parent', 0)

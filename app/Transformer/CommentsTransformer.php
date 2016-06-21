@@ -8,7 +8,7 @@ use App\Model\Comment;
 class CommentsTransformer extends Fractal\TransformerAbstract
 {
 	protected $defaultIncludes = [
-		'video'
+		'video', 'user'
 	];
 
 	protected $availableIncludes = [
@@ -39,6 +39,11 @@ class CommentsTransformer extends Fractal\TransformerAbstract
 
 	public function includeUser(Comment $comment){
 		$results = $comment->user;
+		if(!is_null($results)){
+			return $this->item($results, new CommenterTransformer);
+		}else{
+			return null;
+		}
 	}
 
 	public function includeParents(Comment $comment){

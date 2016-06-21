@@ -34,5 +34,6 @@ Routed::version('v1', function($api){
 	$api->put('/company/{id}', 'App\Modules\Api\Http\Controllers\CompanyController@putEntity');
 	$api->delete('/company/{id}', 'App\Modules\Api\Http\Controllers\CompanyController@deleteEntity');
 	
+	$api->post('/commenter', 'App\Modules\Api\Http\Controllers\CommenterController@registerOrUpdate');
 
 });

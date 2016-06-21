@@ -41,7 +41,7 @@ class Comment extends Model
     }
 
     public function user(){
-    	return $this->belongsTo('App\Model\User');
+    	return $this->belongsTo('App\Model\Commenter', 'user_id');
     }
 
     public function parents(){
