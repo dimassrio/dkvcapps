@@ -11,8 +11,7 @@
         "caffeinated/modules": "^3.0",
         "fzaninotto/Faker": "^1.5",
         "jlapp/swaggervel": "dev-master",
-        "cartalyst/sentinel": "^2.0",
-        "Bogardo/Mailgun": "^4.0"
+        "cartalyst/sentinel": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
