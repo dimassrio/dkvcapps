@@ -13,7 +13,6 @@ class FrontendControllers extends ApiController
 	use Helpers;
 	public function dashboardVideoIndex(Request $request){
 		$users = \Sentinel::getUser();
-		$sidebars = [];
 		$active = 'video';
 		$title = 'Video Management';
 		$description = 'Manage all of your video information here.';
@@ -27,12 +26,11 @@ class FrontendControllers extends ApiController
 				$query = 'api/video?limit=0&search='.$search;
 			}
 		}else{
-			// if  vendor
+			// if  Cobrand
 			$query = 'api/video?limit=0&search='.$users->cobrand_id;
 
 		}
-		$results = $this->api->get($query);		
-
+		$results = $this->api->get($query);	
 		$collect = $results->forPage($request->input('page', 1), 20);
 		$video = new LengthAwarePaginator($collect, count($results),20);
 		$video->setPath('/dashboard/video');
@@ -40,7 +38,21 @@ class FrontendControllers extends ApiController
 			$video->setPath('/dashboard/video?search='.$search);
 		}
 
-		return view('frontend::dashboard.video.index', compact('users', 'sidebars', 'active', 'title', 'description', 'video'));
+		return view('frontend::dashboard.video.index', compact('users', 'active', 'title', 'description', 'video'));
+	}
+
+	public function dashboardVideoEdit($id, Request $request){
+		$users = \Sentinel::getUser();
+		$active = 'video';
+		$title = 'Video Management';
+		$description = 'Manage all of your video information here.';
+		$video = $this->api->get('api/video/'.$id);
+		if(\Sentinel::inRole('admin')){
+			$options = $this->api->get('/company');
+		}else{
+			$options = $this->api->get('/company/'.$users->cobrand_id);
+		}
+		return view('frontend::dashboard.video.edit', compact('users', 'active', 'title', 'description',  'video', 'options'));
 	}
 
 	public function dashboardVideoDelete($id){
@@ -56,6 +68,69 @@ class FrontendControllers extends ApiController
 		}
 
 		return redirect()->to('/dashboard/video');
+	}
+
+	public function dashboardVideoPut($id, Request $request){
+		$results = [];
+		
+		$this->api->put('api/video/'.$id, ['title'=>$request->input('title'), 'url'=>$request->input('url'), 'cobrand_id'=>$request->input('cobrand_id')]);
+
+		return redirect()->to('/dashboard/video');
+	}
+
+	public function dashboardUsersEdit($id, Request $request){
+		$users = \Sentinel::getUser();
+		$active = 'users';
+		$title = 'Users Management';
+		$description = 'Manage all of your users information here.';
+
+		$users_container = \Sentinel::getUserRepository()->find($id);
+		
+		if(\Sentinel::inRole('admin')){
+			$options = $this->api->get('/company');
+			$roles = \Sentinel::getRoleRepository()->all();
+		}else{
+			$options = $this->api->get('/company/'.$users->cobrand_id);
+		}
+		return view('frontend::dashboard.users.edit', compact('users', 'active', 'title', 'description',  'users_container', 'options', 'roles'));
+	}
+
+	public function dashboardUsersPut($id, Request $request){
+			$data = ["email"=>$request->input('email'), "password"=> $request->input('password'), "first_name"=>$request->input('first_name')];
+			$validator = \Validator::make($data, [
+				'email' => 'required',
+				'first_name' => 'required'
+			]);
+
+			if($validator->fails()){
+				return redirect()->to('/dashboard/users/'.$id.'/edit')->withErrors($validator);
+			}
+
+			$users = \Sentinel::findById($id);
+			$credentials = [
+				'email' => $request->input('email')
+			];
+
+			if(\Sentinel::validForUpdate($users, $credentials)){
+				$update = [
+					'first_name' => $request->input('first_name'),
+					'last_name' => $request->input('last_name'),
+					'role' => $request->input('role'),
+					'cobrand_id' => $request->input('cobrand_id')
+				];
+				if($request->has('password')){
+					$update['password'] = $request->input('password');
+				}
+
+				$roles = \Sentinel::getRoleRepository()->findBySlug('admin');
+				if($roles->id == $request->input('role')){
+					$update['cobrand_id'] = 0;
+				}
+
+				\Sentinel::update($users, $update);
+
+			}
+
 	}
 
 	public function dashboardUsersDelete($id){
@@ -123,7 +198,7 @@ class FrontendControllers extends ApiController
 			$search = $request->input('search');
 			$query = \Sentinel::getUserRepository()->all();
 		}else{
-			// if  vendor
+			// if  Cobrand
 			$query = \Sentinel::getUserRepository()->where('cobrand_id', $users->cobrand_id)->get();
 		}
 		$results = $query;
@@ -146,7 +221,7 @@ class FrontendControllers extends ApiController
 			$roles = \Sentinel::getRoleRepository()->all();
 		}else{
 			$options = $this->api->get('/company/'.$users->cobrand_id);
-			$roles = \Sentinel::getRoleRepository()->where('slug','vendor')->get();
+			$roles = \Sentinel::getRoleRepository()->where('slug','Cobrand')->get();
 		}
 		$options = $options->toJson();
 		$roles = $roles->toJson();
@@ -193,9 +268,9 @@ class FrontendControllers extends ApiController
 
 	public function dashboardVendorIndex(Request $request){
 		$users = \Sentinel::getUser();
-		$title = 'Vendor Management';
-		$description = 'Manage your Vendor here';
-		$active = 'vendors';
+		$title = 'Cobrand Management';
+		$description = 'Manage your Cobrand here';
+		$active = 'cobrands';
 		// querying
 		
 		// if admin
@@ -207,8 +282,8 @@ class FrontendControllers extends ApiController
 		$collect = $results->forPage($request->input('page', 1), 20);
 		$vendor_container = new LengthAwarePaginator($collect, count($results),20);
 
-		$vendor_container->setPath('/dashboard/vendors');
-		return view('frontend::dashboard.vendors.index', compact('title', 'description', 'active', 'users', 'vendor_container'));
+		$vendor_container->setPath('/dashboard/cobrands');
+		return view('frontend::dashboard.cobrands.index', compact('title', 'description', 'active', 'users', 'vendor_container'));
 	}
 
 	public function dashboardVendorDelete($id){
@@ -223,28 +298,45 @@ class FrontendControllers extends ApiController
 			foreach ($results as $key => $value) {
 				$results = $this->api->delete('api/video/'.$value->id);
 			}
-			// delete vendor
+			// delete Cobrand
 			$results = $this->api->delete('api/company/'.$id);
 		}
 
-		return redirect()->to('/dashboard/vendors');
+		return redirect()->to('/dashboard/cobrands');
 	}
 
 	public function dashboardVendorCreate(){
 		$users = \Sentinel::getUser();
-		$title = 'Create Vendors';
-		$description = 'Create the Vendors listing here';
-		$active = 'vendors';
-		return view('frontend::dashboard.vendors.create', compact('title', 'description', 'active', 'users'));
+		$title = 'Create cobrands';
+		$description = 'Create the cobrands listing here';
+		$active = 'cobrands';
+		return view('frontend::dashboard.cobrands.create', compact('title', 'description', 'active', 'users'));
 	}
 
 	public function dashboardVendorPost(Request $request){
-
 		foreach ($request->input('name') as $key => $value) {
 			$this->api->post('/api/company', ['name' => $value, 'ref_id_'=> $request->input('ref_id_')[$key]]);
 		}
+		return redirect()->to('/dashboard/cobrands');
+	}
 
-		return redirect()->to('/dashboard/vendors');
+	public function dashboardVendorEdit($id){
+		$users = \Sentinel::getUser();
+		$active = 'cobrands';
+		$title = 'Cobrand Management';
+		$description = 'Manage all of your cobrand information here.';
+		$cobrand_container = $this->api->get('/api/company/'.$id);
+		return view('frontend::dashboard.cobrands.edit', compact('title', 'description', 'active', 'users', 'cobrand_container'));
+	}
+	public function dashboardVendorPut($id, Request $request){
+		$validator = \Validator::make($request->all(),[
+			'name' => 'required'
+		]);
+
+		if(!$validator->fails()){
+			$this->api->put('/api/company/'.$id, ['name'=>$request->input('name', ''), 'ref_id'=>$request->input('ref_id', '')]);			
+		}
+		return redirect()->to('/dashboard/cobrands');
 	}
 
 	public function dashboardCommentsIndex($id, Request $request){

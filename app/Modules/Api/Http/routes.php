@@ -31,7 +31,8 @@ Routed::version('v1', function($api){
 	$api->post('/company', 'App\Modules\Api\Http\Controllers\CompanyController@postEntity');
 
 	$api->get('/company/{id}', 'App\Modules\Api\Http\Controllers\CompanyController@getEntity');
+	$api->put('/company/{id}', 'App\Modules\Api\Http\Controllers\CompanyController@putEntity');
 	$api->delete('/company/{id}', 'App\Modules\Api\Http\Controllers\CompanyController@deleteEntity');
-
+	
 
 });

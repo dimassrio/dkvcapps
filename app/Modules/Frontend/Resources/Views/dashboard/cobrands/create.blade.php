@@ -2,7 +2,7 @@
 
 @section('body')
 	<div class="container">
-		<form action="{{url('/dashboard/vendors')}}" method="POST">
+		<form action="{{url('/dashboard/cobrands')}}" method="POST">
 			<div class="row">
 				<div class="col-lg-6 col-lg-offset-3">
 					<div class="form--container">

@@ -7,7 +7,7 @@
 				Data Vendor
 			</div>
 			<div class="box-tools">
-				<a href="{{url('/dashboard/create/vendors')}}" class="btn btn-info btn-tiny"><i class="fa fa-plus"></i> Add vendors</a>
+				<a href="{{url('/dashboard/create/cobrands')}}" class="btn btn-info btn-tiny"><i class="fa fa-plus"></i> Add Cobrands</a>
 			</div>
 		</div>
 		<div class="box-body table-responsive no-padding">
@@ -27,6 +27,7 @@
 					<td>{{$v->name}}</td>
 					<td>{{$v->ref_id}}</td>
 					<td>
+						<a href="{{url('/dashboard/cobrands')}}/{{$v->id}}/edit" class="btn btn-warning btn-tiny btn--edit"><i class="fa fa-pencil"></i></a>
 						<button class="btn btn-danger btn-tiny btn--delete" id="btn--delete__{{$v->id}}" data-id="{{$v->id}}"><i class="fa fa-times"></i></button>
 					</td>
 				</tr>	
@@ -64,7 +65,7 @@
 @section('js')
 	<script type="text/javascript">
 		$(".btn--delete").click(function(){
-			$("#url--delete").attr("href", "{{url('dashboard/vendors')}}/"+$(this).attr("data-id")+"/delete");
+			$("#url--delete").attr("href", "{{url('dashboard/cobrands')}}/"+$(this).attr("data-id")+"/delete");
 			$("#modal--delete").modal();
 		});
 	</script>

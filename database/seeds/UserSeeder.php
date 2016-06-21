@@ -26,12 +26,12 @@ class UserSeeder extends Seeder
         	'slug' => 'admin'
         ]);
         $role2 = \Sentinel::getRoleRepository()->createModel()->create([
-        	'name' => 'Vendor',
-        	'slug' => 'vendor'
+        	'name' => 'CoBrand',
+        	'slug' => 'cobrand'
         ]);
         $menus1 = \DB::table('menus')->insertGetId(['name'=>'Video', 'slug'=>'video', 'icon'=>'video-camera']);
         $menus3 = \DB::table('menus')->insertGetId(['name'=>'Users', 'slug'=>'users', 'icon'=>'users']);
-        $menus4 = \DB::table('menus')->insertGetId(['name'=>'Vendor', 'slug'=>'vendors', 'icon'=>'industry']);
+        $menus4 = \DB::table('menus')->insertGetId(['name'=>'CoBrand', 'slug'=>'cobrands', 'icon'=>'industry']);
 
         $rm = \DB::table('role_menus')->insert(['menu_id'=>$menus1, 'role_id'=>$role1->id]);
         $rm = \DB::table('role_menus')->insert(['menu_id'=>$menus3, 'role_id'=>$role1->id]);
@@ -47,12 +47,12 @@ class UserSeeder extends Seeder
         $users->save();
         $role1->users()->attach($users);
         $credentials = [
-            'email' => 'admin@vendor.co.id',
+            'email' => 'admin@CoBrand.co.id',
             'password' => 'admin1234',
         ];
         $users = \Sentinel::registerAndActivate($credentials);
         $users->first_name = "Administrator";
-        $users->last_name = "Vendor";
+        $users->last_name = "CoBrand";
         $users->cobrand_id = 1;
         $users->save();
         $role2->users()->attach($users);

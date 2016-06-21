@@ -35,6 +35,7 @@
 						@endif
 					</td>
 					<td>
+						<a href="{{url('/dashboard/users/')}}/{{$v->id}}/edit" class="btn btn-warning btn-tiny btn--edit"><i class="fa fa-pencil"></i></a>
 						<button class="btn btn-danger btn-tiny btn--delete" id="btn--delete__{{$v->id}}" data-id="{{$v->id}}"><i class="fa fa-times"></i></button>
 					</td>
 				</tr>	

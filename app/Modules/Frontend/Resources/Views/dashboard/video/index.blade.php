@@ -18,7 +18,8 @@
 						<th>Title</th>
 						<th>URL</th>
 						<th>Co Brand</th>
-						<th>Action</th>
+						<th>Likes</th>
+						<th width="15%">Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -28,8 +29,10 @@
 				<td>{{$v->title}}</td>
 				<td><a href="{{$v->url}}">{{$v->url}}</a></td>
 				<td><a href="{{url('/dashboard/video?search='.$v->company->id)}}">{{$v->company->name}}</a></td>
+				<td>{{$v->likeCount()}}</td>
 				<td>
-					<a href="{{url('/dashboard/comments')}}/{{$v->id}}" class="btn btn-warning btn-tiny"><i class="fa fa-comments"></i></a>
+					<a href="{{url('/dashboard/comments')}}/{{$v->id}}" class="btn btn-success btn-tiny"><i class="fa fa-comments"></i></a> 
+					<a href="{{url('/dashboard/video')}}/{{$v->id}}/edit" class="btn btn-warning btn-tiny"><i class="fa fa-pencil"></i></a> 
 					<button class="btn btn-danger btn-tiny btn--delete" id="btn--delete__{{$v->id}}" data-id="{{$v->id}}"><i class="fa fa-times"></i></button>
 				</td>
 			</tr>	

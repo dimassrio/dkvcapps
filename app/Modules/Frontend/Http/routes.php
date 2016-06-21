@@ -34,25 +34,34 @@ Route::get('/auth/login', '\App\Http\Controllers\Auth\AuthController@getLogin');
 Route::post('/auth/login', '\App\Http\Controllers\Auth\AuthController@postLogin');
 
 Route::group(['middleware'=>['auth']], function(){
+	// only logout after login
 	Route::get('/auth/logout', '\App\Http\Controllers\Auth\AuthController@getLogout');
+
 	// video management
 	Route::get('/dashboard/video', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVideoIndex');
 	Route::get('/dashboard/video/{id}/delete', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVideoDelete');
 	Route::get('/dashboard/create/video', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVideoCreate');
 	Route::post('/dashboard/video', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVideoPost');
+	Route::post('/dashboard/video/{id}', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVideoPut');
+	Route::get('/dashboard/video/{id}/edit', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVideoEdit');
+
 	// users management
 	Route::get('/dashboard/users', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardUsersIndex');
 	Route::get('/dashboard/create/users', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardUsersCreate');
 	Route::post('/dashboard/users', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardUsersPost');
 	Route::get('/dashboard/users/{id}/delete', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardUsersDelete');
+	Route::get('/dashboard/users/{id}/edit', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardUsersEdit');
+	Route::post('/dashboard/users/{id}', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardUsersPut');
 
-	Route::get('/dashboard/vendors', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVendorIndex');
-	Route::post('/dashboard/vendors', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVendorPost');
+	//cobrand management
+	Route::get('/dashboard/cobrands', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVendorIndex');
+	Route::post('/dashboard/cobrands', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVendorPost');
+	Route::post('/dashboard/cobrands/{id}', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVendorPut');
+	Route::get('/dashboard/create/cobrands', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVendorCreate');
+	Route::get('/dashboard/cobrands/{id}/delete', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVendorDelete');
+	Route::get('/dashboard/cobrands/{id}/edit', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVendorEdit');
 
-	Route::get('/dashboard/create/vendors', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVendorCreate');
-
-	Route::get('/dashboard/vendors/{id}/delete', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardVendorDelete');
-
+	//comment management
 	Route::get('/dashboard/comments/{id}', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardCommentsIndex');
 	Route::get('/dashboard/comments/delete/{id}', '\App\Modules\Frontend\Http\Controllers\FrontendControllers@dashboardCommentsDelete');
 
