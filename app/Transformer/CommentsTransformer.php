@@ -24,7 +24,8 @@ class CommentsTransformer extends Fractal\TransformerAbstract
 			'uri' => 'comment/'.$comment->id,
 			'user_id' => $comment->user_id,
 			'flag' => $comment->flagCount(),
-			'flag_list' => $comment->flagList()
+			'flag_list' => $comment->flagList(),
+			'created_at' => $comment->created_at
 		];
 	}
 
