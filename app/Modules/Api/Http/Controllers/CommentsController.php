@@ -27,9 +27,12 @@ class CommentsController extends ApiController
 	 * @Get("/video/{id}/comments")
 	 * @Response(200, body={"comments":"Eius dignissimos autem et odit eos adipisci. Minus non laborum eveniet quia quam.","level":0,"parent":0, "uri":"comments/1", "user_id":1, "flag":3, "video":{"data":{}}, "flaglist":"[1,2,3]"})
 	 */
-	public function getAll($id){
+	public function getAll($id, Request $request){
 		$results = $this->video->find($id);
 		$results = $results->comments;
+		$limit = $request->input('limit', 100);
+		$offset = $request->input('offset', 0);
+		$results = $results->slice($offset, $limit);
 		return $this->response->collection($results, $this->transformer);
 	}
 
