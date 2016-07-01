@@ -65,7 +65,7 @@ class VideoController extends ApiController
 	 * @Response(200, body={"id":1, "title":"Lorem Ipsum", "url": "http://youtube.com/watch?v=1234567", "created_at":"2000-01-01 00:00:00", "updated_at":"2000-01-01 00:00:00"})
 	 */
 	public function postEntity(Request $request){
-		$results = $this->video->create(['title' => $request->input('title'), 'url' => $request->input('url'), 'cobrand_id' => $request->input('cobrand_id')]);
+		$results = $this->video->create(['title' => $request->input('title'), 'url' => $request->input('url'), 'description' => $request->input('description') ,'cobrand_id' => $request->input('cobrand_id')]);
 		$results->company;
 		return $this->response->item($results, $this->transformer);
 	}
@@ -82,6 +82,7 @@ class VideoController extends ApiController
 		if(!is_null($results)){
 			$results->title = $request->input('title', $results->title);
 			$results->url = $request->input('url', $results->url);
+			$results->description = $request->input('description', $results->description);
 			$results->cobrand_id = $request->input('cobrand_id', $results->cobrand_id);
 			$results->save();
 			return $this->response->item($results, $this->transformer);

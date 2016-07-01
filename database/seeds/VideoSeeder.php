@@ -23,6 +23,7 @@ class VideoSeeder extends Seeder
         foreach (range(1, 100) as $key => $value) {
         	$videos = Video::create([
         		'title' => $faker->sentence(),
+                'description' => $faker->paragraph(),
         		'url' => $video[$faker->numberBetween(0,2)],
         		'cobrand_id' => $faker->numberBetween(1, 10)
         	]);

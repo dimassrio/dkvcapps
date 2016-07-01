@@ -15,6 +15,7 @@ class CreateVideoTables extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
+            $table->text('description')->nullable();
             $table->string('url');
             $table->string('cobrand_id')->default(1);
             $table->timestamps();

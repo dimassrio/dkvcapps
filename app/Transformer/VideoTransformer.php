@@ -17,6 +17,7 @@ class VideoTransformer extends Fractal\TransformerAbstract
 			'id'     => (int) $video->id,
 			'title'  => $video->title,
 			'url' 	 => $video->url,
+			'description' 	 => $video->description,
 			'rel'	 => 'self',
 			'entity' => '/video/'.$video->id,
 			'cobrand_id'=> $video->cobrand_id,
