@@ -20,7 +20,7 @@ class CommentSeeder extends Seeder
         		'comments' => $faker->text,
         		'parent' => 0,
         		'level' => 0,
-        		'video_id' => 1,
+        		'video_id' => rand(1, 99),
         		'user_id' => 1
         	]);
         }
