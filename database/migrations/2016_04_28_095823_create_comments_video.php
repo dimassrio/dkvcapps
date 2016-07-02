@@ -17,7 +17,7 @@ class CreateCommentsVideo extends Migration
             $table->integer('video_id');
             $table->integer('user_id');
             $table->text('comments');
-            $table->integer('level')->default(1);
+            $table->integer('level')->default(0);
             $table->integer('parent')->default(0);
             $table->timestamps();
         });

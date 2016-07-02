@@ -66,9 +66,18 @@ class CommentsController extends ApiController
 	 * @Response(200, body={"comments":"Eius dignissimos autem et odit eos adipisci. Minus non laborum eveniet quia quam.","level":0,"parent":0, "uri":"comments/1", "user_id":1, "flag":3, "video":"{}", "flaglist":"[1,2,3]"})
 	 */
 	public function postEntity($id, Request $request){
+		$validator = \Validator::make($request->all(), [
+			'comments'      => 'required',
+			'user_id'        => 'required'
+		]);
+
+		if($validator->fails()){
+			return $this->response->errorBadRequest($validator->errors()->__toString());
+		}
+
 		$results = $this->comment->create([
 			'comments' => $request->input('comments'),
-			'email' => $request->input('email'),
+			'user_id' => $request->input('user_id'),
 			'video_id' => $id,
 			'level' => $request->input('level', 0),
 			'parent' => $request->input('parent', 0)
