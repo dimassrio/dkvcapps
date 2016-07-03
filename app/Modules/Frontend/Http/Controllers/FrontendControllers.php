@@ -130,7 +130,7 @@ class FrontendControllers extends ApiController
 				\Sentinel::update($users, $update);
 
 			}
-
+			return redirect()->to('/dashboard/users');
 	}
 
 	public function dashboardUsersDelete($id){
