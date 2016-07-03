@@ -24,6 +24,10 @@
 									<input type="text" class="form-control" name="url" value="{{$video->url}}">
 								</div>
 								<div class="form-group">
+									<label for="url">Video Description</label>
+									<input type="text" class="form-control" name="description" value="{{$video->description}}">
+								</div>
+								<div class="form-group">
 									<label for="cobrand_id">Video CoBrand</label>
 									<select class="form-control" name="cobrand_id">
 										@foreach($options as $key => $o)

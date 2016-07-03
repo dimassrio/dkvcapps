@@ -73,7 +73,7 @@ class FrontendControllers extends ApiController
 	public function dashboardVideoPut($id, Request $request){
 		$results = [];
 		
-		$this->api->put('api/video/'.$id, ['title'=>$request->input('title'), 'url'=>$request->input('url'), 'cobrand_id'=>$request->input('cobrand_id')]);
+		$this->api->put('api/video/'.$id, ['title'=>$request->input('title'), 'url'=>$request->input('url'),'description'=>$request->input('description') ,'cobrand_id'=>$request->input('cobrand_id')]);
 
 		return redirect()->to('/dashboard/video');
 	}
@@ -169,7 +169,12 @@ class FrontendControllers extends ApiController
 
 	public function dashboardVideoPost(Request $request){
 		foreach ($request->input('title') as $key => $value) {
-			$data = ["title"=>$value, "url"=> $request->input('url')[$key], "cobrand_id"=>$request->input('cobrand_id')[$key]];
+			$data = [
+				"title"       => $value, 
+				"url"         => $request->input('url')[$key], 
+				"cobrand_id"  => $request->input('cobrand_id')[$key],
+				"description" => $request->input('description')[$key]
+			];
 			$validator = \Validator::make($data, [
 				'title' => 'required',
 				'url' => 'required|url',

@@ -58,6 +58,9 @@
 				.append($("<label/>").attr({for:"url_"+id}).text("Video URL "+(id+1)), $("<input/>").attr({id:"url_"+id, class:"form-control", name:"url[]"})))
 			.append(
 				$("<div/>").attr("class", "form-group")
+				.append($("<label/>").attr({for:"description_"+id}).text("Video Description "+(id+1)), $("<input/>").attr({id:"description_"+id, class:"form-control", name:"description[]"})))
+			.append(
+				$("<div/>").attr("class", "form-group")
 				.append(
 					$("<label/>").attr({for:"cobrand_"+id}).text("Co Brand "+(id+1)), 
 					select)
