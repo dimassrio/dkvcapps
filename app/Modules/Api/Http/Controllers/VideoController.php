@@ -32,15 +32,15 @@ class VideoController extends ApiController
 		$search = $request->input('search');
 		if(!is_null($search)){
 			if($limit>0){
-				$results = $this->video->where('cobrand_id', $search)->skip($offset)->take($limit)->orderedBy('created_at', 'desc')->get();
+				$results = $this->video->where('cobrand_id', $search)->skip($offset)->take($limit)->orderBy('created_at', 'desc')->get();
 			}else{
-				$results = $this->video->where('cobrand_id', $search)->skip($offset)->orderedBy('created_at', 'desc')->get();
+				$results = $this->video->where('cobrand_id', $search)->skip($offset)->orderBy('created_at', 'desc')->get();
 			}
 		}else{
 			if($limit>0){
-				$results = $this->video->skip($offset)->take($limit)->orderedBy('created_at', 'desc')->get();
+				$results = $this->video->skip($offset)->take($limit)->orderBy('created_at', 'desc')->get();
 			}else{
-				$results = $this->video->skip($offset)->orderedBy('created_at', 'desc')->get();
+				$results = $this->video->skip($offset)->orderBy('created_at', 'desc')->get();
 			}
 		}
 		return $this->response->collection($results, $this->transformer);
