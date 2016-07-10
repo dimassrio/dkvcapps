@@ -9,7 +9,7 @@ class Video extends Model
 	protected $fillable = array('title', 'url', 'cobrand_id');
 	
 	public function comments(){
-		return $this->hasMany('App\Model\Comment', 'video_id');
+		return $this->hasMany('App\Model\Comment', 'video_id')->orderBy('created_at');
 	} 
 
 	public function company(){
