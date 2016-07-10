@@ -32,15 +32,15 @@ class VideoController extends ApiController
 		$search = $request->input('search');
 		if(!is_null($search)){
 			if($limit>0){
-				$results = $this->video->where('cobrand_id', $search)->skip($offset)->take($limit)->get();
+				$results = $this->video->where('cobrand_id', $search)->skip($offset)->take($limit)->orderedBy('created_at', 'desc')->get();
 			}else{
-				$results = $this->video->where('cobrand_id', $search)->skip($offset)->get();
+				$results = $this->video->where('cobrand_id', $search)->skip($offset)->orderedBy('created_at', 'desc')->get();
 			}
 		}else{
 			if($limit>0){
-				$results = $this->video->skip($offset)->take($limit)->get();
+				$results = $this->video->skip($offset)->take($limit)->orderedBy('created_at', 'desc')->get();
 			}else{
-				$results = $this->video->skip($offset)->get();
+				$results = $this->video->skip($offset)->orderedBy('created_at', 'desc')->get();
 			}
 		}
 		return $this->response->collection($results, $this->transformer);
@@ -91,7 +91,6 @@ class VideoController extends ApiController
 	 * @Response(200, body={"id":1, "title":"Lorem Ipsum", "url": "http://youtube.com/watch?v=1234567", "created_at":"2000-01-01 00:00:00", "updated_at":"2000-01-01 00:00:00"})
 	 */
 	public function putEntity($id, Request $request){
-
 		$results = $this->video->find($id);
 		if(!is_null($results)){
 			$results->title = $request->input('title', $results->title);
