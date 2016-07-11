@@ -51,6 +51,7 @@ class FrontendControllers extends ApiController
 			$options = $this->api->get('/company');
 		}else{
 			$options = $this->api->get('/company/'.$users->cobrand_id);
+			$options = [$options];
 		}
 		return view('frontend::dashboard.video.edit', compact('users', 'active', 'title', 'description',  'video', 'options'));
 	}

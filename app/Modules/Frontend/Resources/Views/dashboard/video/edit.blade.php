@@ -6,8 +6,8 @@
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			{{$e}}
 		</div>
-	
 	@endforeach
+
 	<div class="container">
 		<form action="{{url('/dashboard/video')}}/{{$video->id}}" method="POST">
 			<div class="row">

@@ -15,8 +15,9 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call('UserSeeder');
-        //$this->call('VideoSeeder');
-        //$this->call('CommentSeeder');
+        $this->call('VideoSeeder');
+        
+        $this->call('CommentSeeder');
 
         Model::reguard();
     }
