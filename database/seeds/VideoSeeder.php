@@ -20,7 +20,7 @@ class VideoSeeder extends Seeder
         	]);
         }
         $video = ['https://www.youtube.com/watch?v=Ej_DQ-Pk5nc', 'https://www.youtube.com/watch?v=mwaTVPAUGCg', 'https://www.youtube.com/watch?v=rITj6y15U-w'];
-        foreach (range(1, 100) as $key => $value) {
+        foreach (range(1, 20) as $key => $value) {
         	$videos = Video::create([
         		'title' => $faker->sentence(),
                 'description' => $faker->paragraph(),

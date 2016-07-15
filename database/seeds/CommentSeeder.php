@@ -15,12 +15,12 @@ class CommentSeeder extends Seeder
     {
         $faker = Faker::create();
         $commenter = Commenter::create(['email'=>'hello@doku.com', 'username'=>'admin', 'avatar'=>'http://placehold.it/480x480']);
-        foreach(range(1, 100) as $key => $value){
+        foreach(range(1, 50) as $key => $value){
         	$comments = Comment::create([
         		'comments' => $faker->text,
         		'parent' => 0,
         		'level' => 0,
-        		'video_id' => rand(1, 99),
+        		'video_id' => rand(1, 19),
         		'user_id' => 1
         	]);
         }
