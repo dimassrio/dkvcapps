@@ -3,9 +3,11 @@
 @section('body')
 	<div class="box">
 		<div class="box-header">
-			<div class="box-title">
-				Data User
-			</div>
+			@if(\Sentinel::inRole('admin'))
+				<h3 class="box-title">Data Users <a href="{{url('/api/users')}}"><i class="fa fa-link"></i></a></h3>
+			@else
+				<h3 class="box-title">Data Users</h3>
+			@endif
 			<div class="box-tools">
 				<a href="{{url('/dashboard/create/users')}}" class="btn btn-info btn-tiny"><i class="fa fa-plus"></i> Add users</a>
 			</div>
@@ -38,7 +40,7 @@
 						<a href="{{url('/dashboard/users/')}}/{{$v->id}}/edit" class="btn btn-warning btn-tiny btn--edit"><i class="fa fa-pencil"></i></a>
 						<button class="btn btn-danger btn-tiny btn--delete" id="btn--delete__{{$v->id}}" data-id="{{$v->id}}"><i class="fa fa-times"></i></button>
 					</td>
-				</tr>	
+				</tr>
 			@endforeach
 			</tbody>
 				</table>
@@ -59,7 +61,7 @@
 	      	</h4>
 	      </div>
 	      <div class="modal-body">
-        	<p>Remember, you can't undo this action. Once deleted the users registry can't be recovered at all.</p>	
+        	<p>Remember, you can't undo this action. Once deleted the users registry can't be recovered at all.</p>
       	  </div>
 	      <div class="modal-footer">
         <a href="#" class="btn btn-default" id="url--delete">DELETE</a>

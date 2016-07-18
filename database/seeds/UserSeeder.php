@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         // $user->name = 'admin';
         // $user->save();
         $credentials = [
-        	'email' => 'admin@dycode.co.id',
+        	'email' => 'admin@doku.co.id',
         	'password' => 'admin1234',
         ];
         $role1 = \Sentinel::getRoleRepository()->createModel()->create([
@@ -47,7 +47,7 @@ class UserSeeder extends Seeder
         $users->save();
         $role1->users()->attach($users);
         $credentials = [
-            'email' => 'admin@CoBrand.co.id',
+            'email' => 'cobrand@doku.co.id',
             'password' => 'admin1234',
         ];
         $users = \Sentinel::registerAndActivate($credentials);

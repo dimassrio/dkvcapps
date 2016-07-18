@@ -14,18 +14,17 @@ class VideoSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        foreach(range(1, 10) as $key => $value){
         	$company = Company::create([
-        		'name' => $faker->company()
+        		'name' => 'Doku'
         	]);
-        }
+
         $video = ['https://www.youtube.com/watch?v=Ej_DQ-Pk5nc', 'https://www.youtube.com/watch?v=mwaTVPAUGCg', 'https://www.youtube.com/watch?v=rITj6y15U-w'];
         foreach (range(1, 20) as $key => $value) {
         	$videos = Video::create([
-        		'title' => $faker->sentence(),
+        		'title' => 'Video '.$key,
                 'description' => $faker->paragraph(),
         		'url' => $video[$faker->numberBetween(0,2)],
-        		'cobrand_id' => $faker->numberBetween(1, 10)
+        		'cobrand_id' => 1
         	]);
         }
     }

@@ -1,10 +1,14 @@
 @extends('_layout.dashboard')
 
 @section('body')
-	
+
 	<div class="box">
             <div class="box-header">
-              <h3 class="box-title">Data Video</h3>
+							@if(\Sentinel::inRole('admin'))
+								<h3 class="box-title">Data Video <a href="{{url('/api/video')}}"><i class="fa fa-link"></i></a></h3>
+							@else
+								<h3 class="box-title">Data Video</h3>
+							@endif
 	            <!-- /.box-header -->
 	            <div class="box-tools">
 	            	<a href="{{url('/dashboard/create/video')}}" class="btn btn-info btn-tiny"><i class="fa fa-plus"></i> Add Video</a>
@@ -31,11 +35,11 @@
 				<td><a href="{{url('/dashboard/video?search='.$v->company->id)}}">{{$v->company->name}}</a></td>
 				<td>{{$v->likeCount()}}</td>
 				<td>
-					<a href="{{url('/dashboard/comments')}}/{{$v->id}}" class="btn btn-success btn-tiny"><i class="fa fa-comments"></i></a> 
-					<a href="{{url('/dashboard/video')}}/{{$v->id}}/edit" class="btn btn-warning btn-tiny"><i class="fa fa-pencil"></i></a> 
+					<a href="{{url('/dashboard/comments')}}/{{$v->id}}" class="btn btn-success btn-tiny"><i class="fa fa-comments"></i></a>
+					<a href="{{url('/dashboard/video')}}/{{$v->id}}/edit" class="btn btn-warning btn-tiny"><i class="fa fa-pencil"></i></a>
 					<button class="btn btn-danger btn-tiny btn--delete" id="btn--delete__{{$v->id}}" data-id="{{$v->id}}"><i class="fa fa-times"></i></button>
 				</td>
-			</tr>	
+			</tr>
 		@endforeach
 		</tbody>
 			</table>
@@ -47,8 +51,8 @@
               </div>
             </div>
             </div>
-	
-	
+
+
 
 	<div id="modal--delete" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 	  <div class="modal-dialog modal-sm">
@@ -59,7 +63,7 @@
 	      	</h4>
 	      </div>
 	      <div class="modal-body">
-        	<p>Remember, you can't undo this action. Once deleted the video registry can't be recovered at all.</p>	
+        	<p>Remember, you can't undo this action. Once deleted the video registry can't be recovered at all.</p>
       	  </div>
 	      <div class="modal-footer">
         <a href="#" class="btn btn-default" id="url--delete">DELETE</a>
