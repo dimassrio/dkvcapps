@@ -15,7 +15,8 @@ class VideoSeeder extends Seeder
     {
         $faker = Faker::create();
         	$company = Company::create([
-        		'name' => 'Doku'
+        		'name' => 'Doku',
+            'ref_id'=> 675
         	]);
 
         $video = ['https://www.youtube.com/watch?v=Ej_DQ-Pk5nc', 'https://www.youtube.com/watch?v=mwaTVPAUGCg', 'https://www.youtube.com/watch?v=rITj6y15U-w'];

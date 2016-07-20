@@ -32,7 +32,7 @@
 				<td>{{$key + 1}}</td>
 				<td>{{$v->title}}</td>
 				<td><a href="{{$v->url}}">{{$v->url}}</a></td>
-				<td>{{$v->cobrand_id}}</td>
+				<td><a href="{{url('/dashboard/video?search='.$v->company->id)}}">{{$v->company->name}}</a></td>
 				<td>{{$v->likeCount()}}</td>
 				<td>
 					<a href="{{url('/dashboard/comments')}}/{{$v->id}}" class="btn btn-success btn-tiny"><i class="fa fa-comments"></i></a>
