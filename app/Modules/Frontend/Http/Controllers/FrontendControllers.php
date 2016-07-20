@@ -311,6 +311,7 @@ class FrontendControllers extends ApiController
 			$search = Company::find($id);
 
 			if(is_null($search)){
+				$results = $this->api->delete('api/company/'.$id);
 				return $this->redirect()->back();
 			}
 			$search = $search->ref_id;
