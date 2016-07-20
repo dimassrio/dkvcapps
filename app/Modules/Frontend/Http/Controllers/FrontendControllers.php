@@ -315,7 +315,10 @@ class FrontendControllers extends ApiController
 				return $this->redirect()->back();
 			}
 			$search = $search->ref_id;
-
+			if(is_null($search)){
+				$results = $this->api->delete('api/company/'.$id);
+				return $this->redirect()->back();
+			}
 			try{
 				$results = $this->api->get('api/video?limit=0&search='.$search);
 			}catch(Symfony\Component\HttpKernel\Exception\HttpException $e){
