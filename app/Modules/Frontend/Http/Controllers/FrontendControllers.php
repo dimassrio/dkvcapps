@@ -312,12 +312,12 @@ class FrontendControllers extends ApiController
 
 			if(is_null($search)){
 				$results = $this->api->delete('api/company/'.$id);
-				return $this->redirect()->back();
+				return redirect()->back();
 			}
 			$search = $search->ref_id;
 			if(is_null($search)){
 				$results = $this->api->delete('api/company/'.$id);
-				return $this->redirect()->back();
+				return redirect()->back();
 			}
 			try{
 				$results = $this->api->get('api/video?limit=0&search='.$search);
