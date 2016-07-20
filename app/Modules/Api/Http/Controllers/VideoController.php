@@ -6,15 +6,18 @@ use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use App\Model\Video;
 use App\Transformer\VideoTransformer;
+use App\Model\Company;
 /**
  * @Resource("Video")
  */
 class VideoController extends ApiController
 {
 	public $video;
+	public $company;
 
-	public function __construct(Video $video, VideoTransformer $transformer){
-		$this->video = $video;
+	public function __construct(Video $video, VideoTransformer $transformer, Company $company){
+		$this->video       = $video;
+		$this->company     = $company;
 		$this->transformer = $transformer;
 	}
 	/**
@@ -29,12 +32,22 @@ class VideoController extends ApiController
 	public function getAll(Request $request){
 		$limit = $request->input('limit', 100);
 		$offset = $request->input('offset', 0);
+
 		$search = $request->input('search');
+
 		if(!is_null($search)){
+			$id = $this->company->where('ref_id', $search)->get()->first();
+
+			if(is_null($id)){
+				return $this->response->errorNotFound();
+			}
+
+			$id = $id->id;
+
 			if($limit>0){
-				$results = $this->video->where('cobrand_id', $search)->skip($offset)->take($limit)->orderBy('created_at', 'desc')->get();
+				$results = $this->video->where('cobrand_id', $id)->skip($offset)->take($limit)->orderBy('created_at', 'desc')->get();
 			}else{
-				$results = $this->video->where('cobrand_id', $search)->skip($offset)->orderBy('created_at', 'desc')->get();
+				$results = $this->video->where('cobrand_id', $id)->skip($offset)->orderBy('created_at', 'desc')->get();
 			}
 		}else{
 			if($limit>0){
@@ -74,8 +87,8 @@ class VideoController extends ApiController
 			return $this->response->errorBadRequest($validator->errors()->__toString());
 		}
 		$results = $this->video->create([
-			'title'       => $request->input('title'), 
-			'url'         => $request->input('url'), 
+			'title'       => $request->input('title'),
+			'url'         => $request->input('url'),
 			'description' => $request->input('description') ,
 			'cobrand_id'  => $request->input('cobrand_id')
 		]);
@@ -141,7 +154,7 @@ class VideoController extends ApiController
 
 	/*
 	 *
-	 * 
+	 *
 	 */
 	public function getAllLike($id, Request $request){
 		$results = $this->video->find($id);

@@ -16,8 +16,9 @@
 			<thead>
 				<tr>
 					<th>No</th>
-					<th>Ref_Id</th>
 					<th>Comments</th>
+					<th>Author</th>
+					<th>Tanggal</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -25,12 +26,13 @@
 	@foreach($comments_container as $key => $v)
 		<tr>
 			<td>{{$key + 1}}</td>
-			<td>{{$v->ref_id}}</td>
 			<td>{{$v->comments}}</td>
+			<td>{{$v->commenters->username}}</td>
+			<td>{{$v->created_at}}</td>
 			<td>
 				<button class="btn btn-danger btn-tiny btn--delete" id="btn--delete__{{$v->id}}" data-id="{{$v->id}}"><i class="fa fa-times"></i></button>
 			</td>
-		</tr>	
+		</tr>
 	@endforeach
 	</tbody>
 	</table>
@@ -39,11 +41,11 @@
 		<div class="box-footer">
 			<div class="box-tools">
 	{!!$comments_container->render()!!}
-				
+
 			</div>
 		</div>
 	</div>
-	
+
 
 
 	<div id="modal--delete" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
@@ -55,7 +57,7 @@
 	      	</h4>
 	      </div>
 	      <div class="modal-body">
-        	<p>Remember, you can't undo this action. Once deleted the comments registry can't be recovered at all.</p>	
+        	<p>Remember, you can't undo this action. Once deleted the comments registry can't be recovered at all.</p>
       	  </div>
 	      <div class="modal-footer">
         <a href="#" class="btn btn-default" id="url--delete">DELETE</a>

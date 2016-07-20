@@ -12,7 +12,7 @@
 			<div class="row">
 				<div class="col-lg-6 col-lg-offset-3">
 					<div class="form--container">
-						
+
 					</div>
 				</div>
 			</div>
@@ -44,17 +44,19 @@
 
 			var options = JSON.parse(JSON.stringify(<?php echo $options?>));
 			var roles = JSON.parse(JSON.stringify(<?php echo $roles?>));
-			
+
 			if(!Array.isArray(options)){
 				options = [options];
 			}
 			if(!Array.isArray(roles)){
 				roles = [roles];
 			}
-			for(let o of options){
+			for(var i=0; i<options.length; i++){
+				var o = options[i];
 				$("<option/>", {value:o.id, text:o.name}).appendTo(select_cobrand);
 			}
-			for(let o of roles){
+			for(var i=0; i<roles.length; i++){
+				var o = roles[i];
 				$("<option/>", {value:o.id, text:o.name}).appendTo(select_roles);
 			}
 
@@ -77,7 +79,7 @@
 			.append(
 				$("<div/>").attr({class:"form-group", id:"cobrand_element_"+id})
 				.append(
-					$("<label/>").attr({for:"cobrand_"+id}).text("Co Brand "+(id+1)), 
+					$("<label/>").attr({for:"cobrand_"+id}).text("Co Brand "+(id+1)),
 					select_cobrand))
 			.append($("<hr/>"));
 			//url
@@ -90,7 +92,7 @@
 			counter++;
 
 			if($("#roles_"+0+" option:selected").text() == 'Admin'){
-				$("#cobrand_element_0").fadeOut();				
+				$("#cobrand_element_0").fadeOut();
 			}
 			$("[id^=roles_]").on("change", function(){
 				var id = $(this).attr("data_id");
@@ -108,9 +110,9 @@
 
 		$("#button--add").click(function(){
 			$(".form--container").append(form(counter));
-			
+
 			if($("#roles_"+counter+" option:selected").text() == 'Admin'){
-				$("#cobrand_element_"+counter).fadeOut();				
+				$("#cobrand_element_"+counter).fadeOut();
 			}
 			$("[id^=roles_]").on("change", function(){
 				var id = $(this).attr("data_id");

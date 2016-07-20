@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Model\Video;
+use App\Model\Company;
 use App\Model\Comment;
 class FrontendControllers extends ApiController
 {
@@ -30,7 +31,13 @@ class FrontendControllers extends ApiController
 			$query = 'api/video?limit=0&search='.$users->cobrand_id;
 
 		}
-		$results = $this->api->get($query);	
+
+		try{
+			$results = $this->api->get($query);
+	  }catch(Symfony\Component\HttpKernel\Exception\HttpException $e){
+			dd($e->getErrors());
+		}
+
 		$collect = $results->forPage($request->input('page', 1), 20);
 		$video = new LengthAwarePaginator($collect, count($results),20);
 		$video->setPath('/dashboard/video');
@@ -73,7 +80,7 @@ class FrontendControllers extends ApiController
 
 	public function dashboardVideoPut($id, Request $request){
 		$results = [];
-		
+
 		$this->api->put('api/video/'.$id, ['title'=>$request->input('title'), 'url'=>$request->input('url'),'description'=>$request->input('description') ,'cobrand_id'=>$request->input('cobrand_id')]);
 
 		return redirect()->to('/dashboard/video');
@@ -86,7 +93,7 @@ class FrontendControllers extends ApiController
 		$description = 'Manage all of your users information here.';
 
 		$users_container = \Sentinel::getUserRepository()->find($id);
-		
+
 		if(\Sentinel::inRole('admin')){
 			$options = $this->api->get('/company');
 			$roles = \Sentinel::getRoleRepository()->all();
@@ -152,7 +159,7 @@ class FrontendControllers extends ApiController
 		return redirect()->to('/dashboard/users');
 	}
 
-	
+
 	public function dashboardVideoCreate(){
 		$users = \Sentinel::getUser();
 		$title = 'Create Video';
@@ -171,8 +178,8 @@ class FrontendControllers extends ApiController
 	public function dashboardVideoPost(Request $request){
 		foreach ($request->input('title') as $key => $value) {
 			$data = [
-				"title"       => $value, 
-				"url"         => $request->input('url')[$key], 
+				"title"       => $value,
+				"url"         => $request->input('url')[$key],
 				"cobrand_id"  => $request->input('cobrand_id')[$key],
 				"description" => $request->input('description')[$key]
 			];
@@ -198,7 +205,7 @@ class FrontendControllers extends ApiController
 		$description = 'Manage your users here';
 		$active = 'users';
 		// querying
-		
+
 		// if admin
 		if(\Sentinel::inRole('admin')){
 			$search = $request->input('search');
@@ -278,7 +285,7 @@ class FrontendControllers extends ApiController
 		$description = 'Manage your Cobrand here';
 		$active = 'cobrands';
 		// querying
-		
+
 		// if admin
 		if(\Sentinel::inRole('admin')){
 			$search = $request->input('search');
@@ -293,14 +300,28 @@ class FrontendControllers extends ApiController
 	}
 
 	public function dashboardVendorDelete($id){
+
 		if(\Sentinel::inRole('admin')){
 			// delete user
 			$results = \Sentinel::getUserRepository()->where('cobrand_id', $id)->get();
 			foreach ($results as $key => $value) {
 				$value->delete();
 			}
+
+			$search = Company::find($id);
+
+			if(is_null($search)){
+				return $this->redirect()->back();
+			}
+			$search = $search->ref_id;
+
+			try{
+				$results = $this->api->get('api/video?limit=0&search='.$search);
+			}catch(Symfony\Component\HttpKernel\Exception\HttpException $e){
+				return redirect()->back();
+			}
 			// delete video
-			$results = $this->api->get('api/video?limit=0&search='.$id);
+
 			foreach ($results as $key => $value) {
 				$results = $this->api->delete('api/video/'.$value->id);
 			}
@@ -321,6 +342,15 @@ class FrontendControllers extends ApiController
 
 	public function dashboardVendorPost(Request $request){
 		foreach ($request->input('name') as $key => $value) {
+			$data = ["name"=>$value, "ref_id"=> $request->input('ref_id')[$key]];
+			$validator = \Validator::make($data, [
+				'name' => 'required',
+				'ref_id' => 'required|integer|unique:cobrand'
+			]);
+
+			if($validator->fails()){
+				return redirect()->to('/dashboard/create/cobrands')->withErrors($validator);
+			}
 			$this->api->post('/api/company', ['name' => $value, 'ref_id_'=> $request->input('ref_id_')[$key]]);
 		}
 		return redirect()->to('/dashboard/cobrands');
@@ -340,7 +370,7 @@ class FrontendControllers extends ApiController
 		]);
 
 		if(!$validator->fails()){
-			$this->api->put('/api/company/'.$id, ['name'=>$request->input('name', ''), 'ref_id'=>$request->input('ref_id', '')]);			
+			$this->api->put('/api/company/'.$id, ['name'=>$request->input('name', ''), 'ref_id'=>$request->input('ref_id', '')]);
 		}
 		return redirect()->to('/dashboard/cobrands');
 	}

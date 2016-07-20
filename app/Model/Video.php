@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Video extends Model
 {
 	protected $fillable = array('title', 'url', 'cobrand_id');
-	
+
 	public function comments(){
 		return $this->hasMany('App\Model\Comment', 'video_id')->orderBy('created_at', 'desc');
-	} 
+	}
 
 	public function company(){
 		return $this->belongsTo('App\Model\Company', 'cobrand_id');
@@ -42,4 +42,5 @@ class Video extends Model
     	}
     	return $results;
 	}
+
 }

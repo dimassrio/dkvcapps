@@ -62,4 +62,7 @@ class Comment extends Model
 		}
 		return $results;
     }
+    public function commenters(){
+    	return $this->belongsTo('App\Model\Commenter', 'user_id', 'id');
+    }
 }

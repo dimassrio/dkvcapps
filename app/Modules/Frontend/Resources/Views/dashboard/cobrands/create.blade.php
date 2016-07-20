@@ -1,12 +1,19 @@
 @extends('_layout.dashboard')
 
 @section('body')
+@foreach($errors->all() as $e)
+	<div class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		{{$e}}
+	</div>
+
+@endforeach
 	<div class="container">
 		<form action="{{url('/dashboard/cobrands')}}" method="POST">
 			<div class="row">
 				<div class="col-lg-6 col-lg-offset-3">
 					<div class="form--container">
-						
+
 					</div>
 				</div>
 			</div>
@@ -36,13 +43,12 @@
 			var html = $("<div/>").attr("id", "element_"+id)
 			.append(
 				$("<div/>").attr("class", "form-group")
-				.append($("<label/>").attr({for:"name_"+id}).text("Vendor Name "+(id+1)), $("<input/>").attr({id:"name_"+id, class:"form-control", name:"name[]"})))
+				.append($("<label/>").attr({for:"name_"+id}).text("Cobrand Name "+(id+1)), $("<input/>").attr({id:"name_"+id, class:"form-control", name:"name[]"})))
 			.append(
 				$("<div/>").attr("class", "form-group")
-				.append($("<label/>").attr({for:"ref_id_"+id}).text("Vendor Ref Id "+(id+1)), $("<input/>").attr({id:"ref_id_"+id, class:"form-control", name:"ref_id[]"})))
+				.append($("<label/>").attr({for:"ref_id_"+id}).text("Cobrand Ref Id "+(id+1)), $("<input/>").attr({id:"ref_id_"+id, class:"form-control", name:"ref_id[]"})))
 			.append($("<hr/>"));
 			//url
-
 			return html;
 		}
 

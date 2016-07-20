@@ -6,14 +6,14 @@
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			{{$e}}
 		</div>
-	
+
 	@endforeach
 	<div class="container">
 		<form action="{{url('/dashboard/video')}}" method="POST">
 			<div class="row">
 				<div class="col-lg-6 col-lg-offset-3">
 					<div class="form--container">
-						
+
 					</div>
 				</div>
 			</div>
@@ -46,9 +46,12 @@
 			if(!Array.isArray(options)){
 				options = [options];
 			}
-			for(let o of options){
+
+			for(var i=0; i<options.length; i++){
+				var o = options[i];
 					$("<option/>", {value:o.id, text:o.name}).appendTo(select);
 				}
+
 			var html = $("<div/>").attr("id", "element_"+id)
 			.append(
 				$("<div/>").attr("class", "form-group")
@@ -62,7 +65,7 @@
 			.append(
 				$("<div/>").attr("class", "form-group")
 				.append(
-					$("<label/>").attr({for:"cobrand_"+id}).text("Co Brand "+(id+1)), 
+					$("<label/>").attr({for:"cobrand_"+id}).text("Co Brand "+(id+1)),
 					select)
 			.append($("<hr/>")));
 			//url
