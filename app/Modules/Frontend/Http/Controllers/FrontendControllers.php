@@ -21,6 +21,7 @@ class FrontendControllers extends ApiController
 		// querying
 		$search = $request->input('search');
 		// if admin
+
 		if(\Sentinel::inRole('admin')){
 			$query = 'api/video?limit=0';
 			if(!is_null($search)){
@@ -28,10 +29,8 @@ class FrontendControllers extends ApiController
 			}
 		}else{
 			// if  Cobrand
-			$query = 'api/video?limit=0&search='.$users->cobrand_id;
-
+			$query = 'api/video?limit=0&search='.$users->cobrand->ref_id;
 		}
-
 		try{
 			$results = $this->api->get($query);
 	  }catch(Symfony\Component\HttpKernel\Exception\HttpException $e){
@@ -75,7 +74,7 @@ class FrontendControllers extends ApiController
 			}
 		}
 
-		return redirect()->to('/dashboard/video');
+		return redirect()->to('/dashboard/video')->with('info', 'Penghapusan video telah berhasil dilaksanakan');
 	}
 
 	public function dashboardVideoPut($id, Request $request){
@@ -98,8 +97,13 @@ class FrontendControllers extends ApiController
 			$options = $this->api->get('/company');
 			$roles = \Sentinel::getRoleRepository()->all();
 		}else{
+			$roles = \Sentinel::getRoleRepository()->where('slug','cobrand')->get();
 			$options = $this->api->get('/company/'.$users->cobrand_id);
+			$options = [$options];
 		}
+
+
+
 		return view('frontend::dashboard.users.edit', compact('users', 'active', 'title', 'description',  'users_container', 'options', 'roles'));
 	}
 
@@ -122,23 +126,32 @@ class FrontendControllers extends ApiController
 			if(\Sentinel::validForUpdate($users, $credentials)){
 				$update = [
 					'first_name' => $request->input('first_name'),
-					'last_name' => $request->input('last_name'),
-					'role' => $request->input('role'),
+					'last_name'  => $request->input('last_name'),
+					'role'       => $request->input('role'),
 					'cobrand_id' => $request->input('cobrand_id')
 				];
-				if($request->has('password')){
+				if($request->has('password') && $request->input('password') != ""){
 					$update['password'] = $request->input('password');
 				}
 
 				$roles = \Sentinel::getRoleRepository()->findBySlug('admin');
+
 				if($roles->id == $request->input('role')){
 					$update['cobrand_id'] = 0;
 				}
 
+				$roles = \Sentinel::getRoleRepository()->all();
+				foreach ($roles as $key => $value) {
+						$value->users()->detach($users);
+				}
+
+				$role = \Sentinel::getRoleRepository()->find($request->input('role'));
+				$role->users()->attach($users);
+
 				\Sentinel::update($users, $update);
 
 			}
-			return redirect()->to('/dashboard/users');
+			return redirect()->to('/dashboard/users')->with('info', "Pengubahan user telah berhasil dilakukan");
 	}
 
 	public function dashboardUsersDelete($id){
@@ -156,7 +169,7 @@ class FrontendControllers extends ApiController
 			}
 		}
 
-		return redirect()->to('/dashboard/users');
+		return redirect()->to('/dashboard/users')->with('info', 'Penghapusan user telah berhasil dilakukan');
 	}
 
 
@@ -234,8 +247,9 @@ class FrontendControllers extends ApiController
 			$roles = \Sentinel::getRoleRepository()->all();
 		}else{
 			$options = $this->api->get('/company/'.$users->cobrand_id);
-			$roles = \Sentinel::getRoleRepository()->where('slug','Cobrand')->get();
+			$roles = \Sentinel::getRoleRepository()->where('slug','cobrand')->get();
 		}
+
 		$options = $options->toJson();
 		$roles = $roles->toJson();
 		return view('frontend::dashboard.users.create', compact('title', 'description', 'active', 'users', 'options', 'roles'));
@@ -245,13 +259,13 @@ class FrontendControllers extends ApiController
 		foreach ($request->input('email') as $key => $value) {
 			$data = ["email"=>$value, "password"=> $request->input('password')[$key], "first_name"=>$request->input('first_name')[$key]];
 			$validator = \Validator::make($data, [
-				'email' => 'required',
+				'email' => 'required|email|unique:users',
 				'password' => 'required',
 				'first_name' => 'required'
 			]);
 
 			if($validator->fails()){
-				return redirect()->to('/dashboard/create/users')->withErrors($validator);
+				return redirect()->back()->withErrors($validator);
 			}
 
 			$credentials = [
@@ -276,7 +290,7 @@ class FrontendControllers extends ApiController
 			$results->save();
 		}
 
-		return redirect()->to('/dashboard/users');
+		return redirect()->to('/dashboard/users')->with("info", "User berhasil didaftarkan");
 	}
 
 	public function dashboardVendorIndex(Request $request){
@@ -333,7 +347,7 @@ class FrontendControllers extends ApiController
 			$results = $this->api->delete('api/company/'.$id);
 		}
 
-		return redirect()->to('/dashboard/cobrands');
+		return redirect()->to('/dashboard/cobrands')->with("info", "Cobrand berhasil dihapus.");
 	}
 
 	public function dashboardVendorCreate(){
@@ -355,9 +369,10 @@ class FrontendControllers extends ApiController
 			if($validator->fails()){
 				return redirect()->to('/dashboard/create/cobrands')->withErrors($validator);
 			}
-			$this->api->post('/api/company', ['name' => $value, 'ref_id_'=> $request->input('ref_id_')[$key]]);
+
+			$this->api->post('/api/company', $data);
 		}
-		return redirect()->to('/dashboard/cobrands');
+		return redirect()->to('/dashboard/cobrands')->with("info", "Cobrand berhasil dihapus.");
 	}
 
 	public function dashboardVendorEdit($id){

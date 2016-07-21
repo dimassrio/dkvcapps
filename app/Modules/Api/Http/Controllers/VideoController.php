@@ -37,7 +37,6 @@ class VideoController extends ApiController
 
 		if(!is_null($search)){
 			$id = $this->company->where('ref_id', $search)->get()->first();
-
 			if(is_null($id)){
 				return $this->response->errorNotFound();
 			}

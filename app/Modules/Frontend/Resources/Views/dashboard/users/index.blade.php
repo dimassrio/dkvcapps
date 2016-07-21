@@ -1,6 +1,11 @@
 @extends('_layout.dashboard')
 
 @section('body')
+@if(session()->has('info'))
+	<div class="alert alert-success">
+			{{session('info')}}
+	</div>
+@endif
 	<div class="box">
 		<div class="box-header">
 			@if(\Sentinel::inRole('admin'))
@@ -13,6 +18,7 @@
 			</div>
 		</div>
 		<div class="box-body table-responsive no-padding">
+
 			<table class="table table-striped">
 					<thead>
 						<tr>

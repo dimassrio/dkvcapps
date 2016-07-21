@@ -78,7 +78,7 @@ class AuthController extends Controller
         // }
 
         $credentials = $this->getCredentials($request);
-        
+
         // if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
         //     return $this->handleUserWasAuthenticated($request, $throttles);
         // }
@@ -94,7 +94,7 @@ class AuthController extends Controller
         return redirect($this->loginPath())
             ->withInput($request->only($this->loginUsername(), 'remember'))
             ->withErrors([
-                $this->loginUsername() => $this->getFailedLoginMessage(),
+                $this->loginUsername() => "Email tidak terdaftar.",
             ]);
     }
 
@@ -102,6 +102,6 @@ class AuthController extends Controller
     {
         \Sentinel::logout();
 
-        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
+        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/auth/login');
     }
 }

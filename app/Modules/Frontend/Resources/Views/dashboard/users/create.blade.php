@@ -98,13 +98,14 @@
 				var id = $(this).attr("data_id");
 				var roles = JSON.parse(JSON.stringify(<?php echo $roles?>));
 				var results = $.grep(roles, function(e){
-					return e.slug == 'vendor'
+					return e.slug == 'cobrand'
 				})
-				if($(this).val()==results[0].id){
-					$("#cobrand_element_"+id).fadeIn();
-				}else{
-					$("#cobrand_element_"+id).fadeOut();
-				}
+
+				 if($(this).val()==results[0].id){
+				 	$("#cobrand_element_"+id).fadeIn();
+				 }else{
+				 	$("#cobrand_element_"+id).fadeOut();
+				 }
 			});
 		})
 
@@ -118,14 +119,21 @@
 				var id = $(this).attr("data_id");
 				var roles = JSON.parse(JSON.stringify(<?php echo $roles?>));
 				var results = $.grep(roles, function(e){
-					return e.slug == 'vendor'
+					return e.slug == 'cobrand'
 				})
+				console.log(results.length);
+				if(results.length == 0){
+					alert("Cobrand tidak ditemukan.");
+					window.location = "{{url('/dashboard/cobrands')}}";
+				}
 				if($(this).val()==results[0].id){
 					$("#cobrand_element_"+id).fadeIn();
 				}else{
 					$("#cobrand_element_"+id).fadeOut();
 				}
 			});
+
+
 			counter++;
 		})
 	</script>

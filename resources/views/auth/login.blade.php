@@ -1,10 +1,20 @@
 @extends('_layout.single')
 
 @section('body')
+
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6 col-lg-offset-3">
 				<img src="{{asset('/img/logo.jpg')}}" class="img-responsive">
+				@if(session()->has('errors'))
+					<div class="alert alert-danger">
+						@foreach(session()->get('errors')->toArray() as $error)
+							@foreach($error as $e)
+								{{$e}}
+							@endforeach
+						@endforeach
+					</div>
+				@endif
 				<form id="form" method="POST" action="{{url('/auth/login')}}" class="form--login">
 					<div class="form-group">
 						<label for="email">EMAIL</label>
