@@ -11,7 +11,6 @@ use App\Model\Company;
 use App\Model\Comment;
 class FrontendControllers extends ApiController
 {
-	use Helpers;
 	public function dashboardVideoIndex(Request $request){
 		$users = \Sentinel::getUser();
 		$active = 'video';
