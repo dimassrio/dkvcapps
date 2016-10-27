@@ -36,7 +36,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next)
     {
         if ($this->auth->check()) {
-            return redirect('/dashboard');
+            return redirect('/dashboard/video');
         }
 
         return $next($request);
